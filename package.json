@@ -8,12 +8,20 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@mdi/font": "^5.6.55",
+    "axios": "^0.20.0",
+    "buefy": "^0.9.3",
+    "cleave.js": "^1.6.0",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "lodash": "^4.17.20",
+    "vue": "^2.6.11",
+    "vue-router": "^3.4.5",
+    "vue-wysiwyg": "^1.7.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
