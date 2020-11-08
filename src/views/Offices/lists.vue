@@ -46,7 +46,7 @@
                 </b-table-column>
 
                 <b-table-column field="manager" label="Responsabile" sortable v-slot="props">
-                    {{ props.row.manager }}
+                    {{ props.row.manager.fullname }}
                 </b-table-column>
 
                 <b-table-column field="action" label="Azioni" v-slot="props">
