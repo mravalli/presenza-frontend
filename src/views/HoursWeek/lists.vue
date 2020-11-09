@@ -4,14 +4,14 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Collaboratori
+                        Ore Settimanali
                     </h1>
                     <h2 class="subtitle">
-                        Elenco Generale
+                        Elenco Ore Settimanali previsti
                     </h2>
                     <div class="is-pulled-right">
-                        <b-button tag="router-link" to="/collaboratore/nuovo" type="is-link is-light">
-                            <b-icon icon="account-plus" size="is-small" class="pr-2"></b-icon> Aggiungi Collaboratore/Collaboratorice
+                        <b-button tag="router-link" to="/impostazioni/ore/nuovo" type="is-link is-light">
+                            <b-icon icon="plus-box" size="is-small" class="pr-2"></b-icon> Inserisci un Nuovo Format
                         </b-button>
                     </div>
                 </div>
@@ -37,38 +37,42 @@
                 :default-sort="[sortField, sortOrder]"
                 @sort="onSort">
 
-                <b-table-column field="firstname" label="Nome" sortable v-slot="props">
-                    {{ props.row.firstname }}
+                <b-table-column field="type" label="Tipologia di Contrattao" sortable v-slot="props">
+                    {{ props.row.type }}
                 </b-table-column>
 
-                <b-table-column field="lastname" label="Cognome" sortable v-slot="props">
-                    {{ props.row.lastname }}
+                <b-table-column field="days" label="Giorni di Lavoro" sortable v-slot="props">
+                    {{ props.row.days }}
                 </b-table-column>
 
-                <b-table-column field="cf" label="Codice Fiscale" sortable v-slot="props">
-                    {{ props.row.cf }}
+                <b-table-column field="mon" label="Lun" sortable v-slot="props">
+                    {{ props.row.mon }}
                 </b-table-column>
-
-                <b-table-column field="city" label="Città" sortable centered v-slot="props">
-                    {{ props.row.city }}
+                <b-table-column field="tue" label="Mar" sortable v-slot="props">
+                    {{ props.row.tue }}
                 </b-table-column>
-
-                <b-table-column field="phone" label="Telefono Fisso" centered v-slot="props">
-                    {{ props.row.phone }}
+                <b-table-column field="wed" label="Mer" sortable v-slot="props">
+                    {{ props.row.wed }}
                 </b-table-column>
-
-                <b-table-column field="mobile" label="Cellulare" centered v-slot="props">
-                    {{ props.row.mobile }}
+                <b-table-column field="thu" label="Gio" sortable v-slot="props">
+                    {{ props.row.thu }}
                 </b-table-column>
-
-                <b-table-column field="email" label="Indirizzo eMail" centered v-slot="props">
-                    {{ props.row.email }}
+                <b-table-column field="fri" label="Ven" sortable v-slot="props">
+                    {{ props.row.fri }}
+                </b-table-column>
+                <b-table-column field="sab" label="Sab" sortable v-slot="props">
+                    {{ props.row.sat }}
+                </b-table-column>
+                <b-table-column field="sun" label="Dom" sortable v-slot="props">
+                    {{ props.row.sun }}
                 </b-table-column>
 
                 <b-table-column field="action" label="Azioni" v-slot="props">
-                    <b-button tag="router-link" :to="`/collaboratore/${props.row.id}`" type="is-link is-light">
-                        <b-icon icon="account-edit" size="is-small"></b-icon>
-                    </b-button>
+                    <div class="buttons">
+                        <b-button tag="router-link" :to="`/impostazioni/ore/${props.row.id}`" type="is-link is-light">
+                            <b-icon icon="home-edit" size="is-small"></b-icon>
+                        </b-button>
+                    </div>
                 </b-table-column>
                     
             </b-table>
@@ -83,7 +87,7 @@
                 data: [],
                 total: 0,
                 loading: false,
-                sortField: 'firstname',
+                sortField: 'name',
                 sortOrder: 'asc',
                 defaultSortOrder: 'asc',
                 page: 1,
@@ -101,7 +105,7 @@
                 ].join('&')
 
                 this.loading = true
-                this.$http.get(`/employees?${params}`)
+                this.$http.get(`/hoursweek?${params}`)
                     .then(({ data }) => {
                         this.data = []
                         let currentTotal = data.totalResults
@@ -110,6 +114,11 @@
                         }
                         this.total = currentTotal
                         data.items.forEach((item) => {
+                            if (item.type === 'FT') {
+                                item.type = 'Tempo Pieno';
+                            } else {
+                                item.type = 'Tempo Parziale';
+                            }
                             this.data.push(item)
                         })
                         this.loading = false

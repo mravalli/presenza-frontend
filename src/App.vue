@@ -20,9 +20,14 @@
           <b-navbar-item tag="router-link" :to="{ path: '/sedi' }">
             Sedi
           </b-navbar-item>
-          <b-navbar-item tag="router-link" :to="{ path: '/impostazioni' }">
-            Impostazioni
-          </b-navbar-item>
+          <b-navbar-dropdown label="Impostazioni">
+            <b-navbar-item tag="router-link" :to="{ path: '/impostazioni' }">
+              Azienda
+            </b-navbar-item>
+            <b-navbar-item tag="router-link" :to="{ path: '/impostazioni/ore' }">
+              Tabella Ore Settimanali
+            </b-navbar-item>
+          </b-navbar-dropdown>
           <b-navbar-dropdown label="Info">
             <b-navbar-item href="#">
               Assistenza

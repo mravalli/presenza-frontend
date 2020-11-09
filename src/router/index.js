@@ -9,6 +9,9 @@ const routes = [
   { path: '/about', name: 'About', component: () => import('../views/About.vue') },
 
   { path: '/impostazioni', name: 'Impostazioni', component: () => import ('../views/Settings.vue') },
+  { path: '/impostazioni/ore', name: 'Ore Settimanali', component: () => import ('../views/HoursWeek/lists.vue') },
+  { path: '/impostazioni/ore/nuovo', component: () => import ('../views/HoursWeek/add.vue') },
+  { path: '/impostazioni/ore/:id(\\d+)', component: () => import ('../views/HoursWeek/edit.vue') },
   
   { path: '/collaboratori', name: 'Collaboratori', component: () => import('../views/Employees/lists.vue') },
   { path: '/collaboratore/nuovo', component: () => import('../views/Employees/add.vue') },

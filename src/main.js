@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
+import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
 import axios from 'axios';
 import lodash from 'lodash';
 import App from './App.vue'
@@ -19,6 +20,7 @@ Vue.use(VueFilterDateFormat, {
 	monthNamesShort: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'],
 	timezone: 2
 });
+Vue.use(VueFilterDateParse);
 Vue.use(Buefy);
 Vue.use(wysiwyg, {forcePlainTextOnPaste: true, hideModules: {"code": true, "headings": true, "image": true, "table": true, "link": true, "removeFormat": true}, locale: 'it', maxHeight: "300px"});
 Vue.config.productionTip = false;

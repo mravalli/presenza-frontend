@@ -4,7 +4,7 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Nuovo Collaboratore
+                        Nuovo Collaboratore/Collaboratorice
                     </h1>
                     <h2 class="subtitle">
                         Tutti i campi con l'asterisco <span style="color: red;">*</span> sono obbligatori
@@ -13,7 +13,7 @@
             </div>
         </section>
         <section>
-            <employee-form :employee="employee"></employee-form>
+            <employee-form :employee="employee" :hoursWeeks="hoursWeeks"></employee-form>
         </section>
    </section>
 </template>
@@ -23,6 +23,12 @@ import EmployeeForm from './_form.vue'
 export default {
     components: { 'employee-form': EmployeeForm},
     data() {
+        let hoursWeeks;
+        this.$http.get(`/hoursweek`).then(({data}) => {
+            this.hoursWeeks = data.items;
+        }).catch((error) => {
+            console.debug(error)
+        })
         return {
             employee: {
                 id: null,
@@ -35,7 +41,8 @@ export default {
                 phone: null,
                 mobile: null,
                 notes: null
-            }
+            },
+            hoursWeeks: hoursWeeks
         }
     }
 }
