@@ -134,7 +134,7 @@
                         console.log(error)
                     })
                 } else {
-                    this.$http.patch(`/hoursWeek/` + this.hoursWeek.id, this.hoursWeek).then(() => {
+                    this.$http.patch(`/hoursweek/` + this.hoursWeek.id, this.hoursWeek).then(() => {
                         this.$router.push({name: 'Ore Settimanali'})
                     }).catch((error) => {
                         console.log(error)

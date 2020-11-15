@@ -12,6 +12,9 @@ const routes = [
   { path: '/impostazioni/ore', name: 'Ore Settimanali', component: () => import ('../views/HoursWeek/lists.vue') },
   { path: '/impostazioni/ore/nuovo', component: () => import ('../views/HoursWeek/add.vue') },
   { path: '/impostazioni/ore/:id(\\d+)', component: () => import ('../views/HoursWeek/edit.vue') },
+  { path: '/impostazioni/giustificativi', name: 'Giustificativi', component: () => import('../views/Justification/lists.vue') },
+  { path: '/impostazioni/giustificativo/nuovo', component: () => import('../views/Justification/add.vue') },
+  { path: '/impostazioni/giustificativo/:id(\\d+)', component: () => import('../views/Justification/edit.vue') },
   
   { path: '/collaboratori', name: 'Collaboratori', component: () => import('../views/Employees/lists.vue') },
   { path: '/collaboratore/nuovo', component: () => import('../views/Employees/add.vue') },
@@ -20,6 +23,8 @@ const routes = [
   { path: '/sedi', name: 'Sedi', component: () => import('../views/Offices/lists.vue') },
   { path: '/sede/nuova', component: () => import('../views/Offices/add.vue') },
   { path: '/sede/:id(\\d+)', component: () => import('../views/Offices/edit.vue') },
+
+  
 ]
 
 const router = new VueRouter({

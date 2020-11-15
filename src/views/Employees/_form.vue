@@ -2,81 +2,66 @@
     <section class="mt-4" v-if="employee">
         <form @submit="checkForm" method="post">
             <div class="columns">
-                <div class="column is-half">
-                    <b-field label="Nome *" label-position="on-border">
-                        <b-input
-                            required
-                            v-model="employee.firstname"
-                            validation-message="Il Nome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
-                            pattern="^[\sa-zA-Z]{3,64}$"
-                            placeholder="Mario"
-                            maxlength=64>
-                        </b-input>
-                    </b-field>
-                </div>
-                <div class="column is-half">
-                    <b-field label="Cognome *" label-position="on-border">
-                        <b-input
-                            required
-                            v-model="employee.lastname"
-                            validation-message="Il Cognome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
-                            pattern="^[\sa-zA-Z]{3,64}$"
-                            placeholder="Rossi"
-                            maxlength=64>
-                        </b-input>
-                    </b-field>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-half">
-                    <b-field label="Codice Fiscale *" label-position="on-border">
-                        <b-input
-                            v-model="employee.cf"
-                            pattern="^(?:[a-zA-Z][aeiouAEIOU][aeiouxAEIOUX]|[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]{2}[a-zA-Z]){2}(?:[\dlmnp-vLMNP-V]{2}(?:[a-ehlmpr-tA-EHLMPR-T](?:[04lqLQ][1-9mnp-vMNP-V]|[15mrMR][\dmlnp-vLMNP-V]|[26nsNS][0-8lmnp-uLMNP-U])|[dhpsDHPS][37ptPT][0lL]|[acelmrtACELMRT][37ptPT][01lmLM]|[ac-ehlmlpr-tAC-EHLMPR-T][26nsNS][9vV])|(?:[02468lnqsuLNQSU][048lquLQU]|[13579mprtvMPRTV][26nsNS])bB[26nsNS][9vV])(?:[a-mzA-MZ][1-9mnp-vMNP-V][\dlmnp-vLMNP-V]{2}|[a-mA-M][0lL](?:[1-9mnp-vMNP-V][\dlmnp-vLMNP-V]|[0lL][1-9mnp-vMNP-V]))[a-zA-Z]$"
-                            validation-message="Il Codice Fiscale è obbligatorio e deve rispettare le norme vigenti!"
-                            required>
-                        </b-input>
-                    </b-field>
-                </div>
-                <div class="column is-2">
-                    <b-field label="Data di Nascita" label-position="on-border">
-                        <b-datepicker
-                            v-model="employee.birthday"
-                            locale="it-IT"
-                            icon="calendar-today"
-                            trap-focus>
-                        </b-datepicker>
-                    </b-field>
-                </div>
-                <div class="column is-4">
-                    <b-field label="Orario" label-position="on-border">
-                        <b-select v-model="employee.hoursWeekId">
-                            <option
-                                v-for="hoursWeek in hoursWeeks"
-                                :value="hoursWeek.id"
-                                :key="hoursWeek.id">
-                                {{ hoursWeek.totalHours }} Ore su {{ hoursWeek.days }} gg. ({{ hoursWeek.mon }}, {{ hoursWeek.tue }}, {{ hoursWeek.wed }}, {{ hoursWeek.thu }}, {{ hoursWeek.fri }}, {{ hoursWeek.sat }}, {{ hoursWeek.sun }})
-                            </option>
-                        </b-select>
-                    </b-field>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-half">
+                <div class="column is-two-thirds">
                     <div class="columns">
-                        <div class="column is-full">
-                            <b-field label="Indirizzo" label-position="on-border">
+                        <div class="column is-half">
+                            <b-field label="Nome *" label-position="on-border">
                                 <b-input
-                                    v-model="employee.address"
-                                    placeholder="Via dei Ciliegi, 99"
-                                    pattern="\s*([a-zA-Z.]+\s*[a-zA-Z],?+\s)*[0-9]*"
-                                    maxlength=150>
+                                    required
+                                    v-model="employee.firstname"
+                                    validation-message="Il Nome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
+                                    pattern="^[\sa-zA-Z]{3,64}$"
+                                    placeholder="Mario"
+                                    maxlength=64>
+                                </b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-half">
+                            <b-field label="Cognome *" label-position="on-border">
+                                <b-input
+                                    required
+                                    v-model="employee.lastname"
+                                    validation-message="Il Cognome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
+                                    pattern="^[\sa-zA-Z]{3,64}$"
+                                    placeholder="Rossi"
+                                    maxlength=64>
                                 </b-input>
                             </b-field>
                         </div>
                     </div>
                     <div class="columns">
-                        <div class="column is-one-third">
+                        <div class="column is-two-fifths">
+                            <b-field label="Codice Fiscale *" label-position="on-border">
+                                <b-input
+                                    v-model="employee.cf"
+                                    pattern="^(?:[a-zA-Z][aeiouAEIOU][aeiouxAEIOUX]|[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]{2}[a-zA-Z]){2}(?:[\dlmnp-vLMNP-V]{2}(?:[a-ehlmpr-tA-EHLMPR-T](?:[04lqLQ][1-9mnp-vMNP-V]|[15mrMR][\dmlnp-vLMNP-V]|[26nsNS][0-8lmnp-uLMNP-U])|[dhpsDHPS][37ptPT][0lL]|[acelmrtACELMRT][37ptPT][01lmLM]|[ac-ehlmlpr-tAC-EHLMPR-T][26nsNS][9vV])|(?:[02468lnqsuLNQSU][048lquLQU]|[13579mprtvMPRTV][26nsNS])bB[26nsNS][9vV])(?:[a-mzA-MZ][1-9mnp-vMNP-V][\dlmnp-vLMNP-V]{2}|[a-mA-M][0lL](?:[1-9mnp-vMNP-V][\dlmnp-vLMNP-V]|[0lL][1-9mnp-vMNP-V]))[a-zA-Z]$"
+                                    validation-message="Il Codice Fiscale è obbligatorio e deve rispettare le norme vigenti!"
+                                    required>
+                                </b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-one-fifth">
+                            <b-field label="Data di Nascita" label-position="on-border">
+                                <b-datepicker
+                                    v-model="employee.birthday"
+                                    locale="it-IT"
+                                    icon="calendar-today"
+                                    trap-focus>
+                                </b-datepicker>
+                            </b-field>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-three-fifths">
+                            <b-field label="Indirizzo" label-position="on-border">
+                                <b-input
+                                    v-model="employee.address"
+                                    placeholder="Via dei Ciliegi, 99"
+                                    maxlength=150>
+                                </b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-narrow">
                             <b-field label="CAP" label-position="on-border">
                                 <b-input
                                     v-model="employee.cap"
@@ -98,10 +83,8 @@
                             </b-field>
                         </div>
                     </div>
-                </div>
-                <div class="column is-half">
                     <div class="columns">
-                        <div class="column is-full">
+                        <div class="column is-half">
                             <b-field label="Telefono Fisso" label-position="on-border">
                                 <b-input
                                     v-model="employee.phone"
@@ -111,9 +94,7 @@
                                 </b-input>
                             </b-field>
                         </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column is-full">
+                        <div class="column is-half">
                             <b-field label="Cellulare" label-position="on-border">
                                 <b-input
                                     v-model="employee.mobile"
@@ -130,15 +111,33 @@
                                 <b-input
                                     v-model="employee.email"
                                     validation-message="L'Indirizzo email inserito non sembra essere valido"
-                                    pattern="^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$"
+                                    type="email"
                                     placeholder="nome@dominio.it">
                                 </b-input>
                             </b-field>
                         </div>
                     </div>
                 </div>
+                <div class="column is-one-third">
+                    <div class="columns">
+                        <div class="column is-full">
+                            <table class="table is-striped is-pulled-right">
+                                <thead>
+                                    <tr>
+                                        <th>Inizio</th>
+                                        <th>Fine</th>
+                                        <th>Tipo</th>
+                                        <th>
+                                            <b-button type="is-light is-success is-small" icon-right="plus">Nuovo</b-button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
             <div class="columns">
                 <div class="column">
                     <b-field label="Note" label-position="on-border">
@@ -190,7 +189,9 @@ export default {
         },
         checkForm: function(e) {
             e.preventDefault();
-            this.employee.birthday = this.employee.birthday.getFullYear() + '-' + (this.employee.birthday.getMonth() + 1) + '-' + this.employee.birthday.getDate();
+            if (this.$lodash.isDate(this.employee.birthday)) {
+                this.employee.birthday = this.employee.birthday.getFullYear() + '-' + (this.employee.birthday.getMonth() + 1) + '-' + this.employee.birthday.getDate();
+            }
             if (this.employee.id === null) {
                 this.$http.post(`/employees`, this.employee).then(({ response }) => {
                     console.log(response)
