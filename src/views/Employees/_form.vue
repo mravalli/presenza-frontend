@@ -3,6 +3,7 @@
         <form @submit="checkForm" method="post">
             <div class="columns">
                 <div class="column is-two-thirds">
+                    <h2 class="title is-3"><center>Anagrafica</center></h2>
                     <div class="columns">
                         <div class="column is-half">
                             <b-field label="Nome *" label-position="on-border">
@@ -61,7 +62,7 @@
                                 </b-input>
                             </b-field>
                         </div>
-                        <div class="column is-narrow">
+                        <div class="column is-one-fifth">
                             <b-field label="CAP" label-position="on-border">
                                 <b-input
                                     v-model="employee.cap"
@@ -72,7 +73,7 @@
                                 </b-input>
                             </b-field>
                         </div>
-                        <div class="column">
+                        <div class="column is-one-fifth">
                             <b-field label="Città" label-position="on-border">
                                 <b-input
                                     maxlength="150"
@@ -121,6 +122,7 @@
                 <div class="column is-one-third">
                     <div class="columns">
                         <div class="column is-full">
+                            <h2 class="title is-3"><center>Collaborazioni</center></h2>
                             <table class="table is-striped is-pulled-right">
                                 <thead>
                                     <tr>
@@ -128,11 +130,17 @@
                                         <th>Fine</th>
                                         <th>Tipo</th>
                                         <th>
-                                            <b-button type="is-light is-success is-small" icon-right="plus">Nuovo</b-button>
+                                            <b-button type="is-light is-success is-small" icon-right="plus" @click="newEngagement()">Nuova</b-button>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <tr v-for="row in employee.engagements" :key="row.id">
+                                        <td>{{ row.begin }}</td>
+                                        <td>{{ row.end }}</td>
+                                        <td>{{ row.hoursWeek.type }} - {{ row.hoursWeek.totalHours }}</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -157,6 +165,7 @@
 <script>
 //import Cleave from 'cleave.js'
 //import 'cleave.js/dist/addons/cleave-phone.it';
+import AddEngagement from './addEngagement';
 
 // const cleave = {
 //     name: 'cleave',
@@ -173,16 +182,6 @@
 export default {
     // directives: { cleave },
     props: ['employee', 'hoursWeeks'],
-    
-    // watch: {
-    //     'employee.weekType': function(newValue) {
-    //         this.debouncedGetFormat(newValue)
-    //     }
-    // },
-    // created: function() {
-    //     this.debouncedGetFormat = this.$lodash.debounce(this.getFormat, 500)
-    // },
-    
     methods: {
         backToList: function() {
             this.$router.push({name: 'Collaboratori'});
@@ -216,13 +215,19 @@ export default {
                 console.log(error);
             })
         },
-        // getFormat: function() {
-        //     this.$http.get(`/week/format/` + this.employee.weekType).then(response => {
-        //         console.log(response)
-        //         this.weekFormats = response.data
-        //     })
-        //     console.log(this.$ref);
-        // }
+        newEngagement: function() {
+            this.$http.get(`/hoursweek`).then(({ data }) => {
+                let hoursWeek = data.items;
+                let engagement = { begin: null, end: null, employeeId: this.employee.id, hoursWeekId: null };
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: AddEngagement,
+                    props: { engagement: engagement, hoursWeek: hoursWeek, isNew: true },
+                    hasModalCard: true,
+                    trapFocus: true
+                })
+            })
+        },
     },
 }
 </script>
