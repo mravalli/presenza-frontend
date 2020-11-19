@@ -122,7 +122,7 @@
                 <div class="column is-one-third">
                     <div class="columns">
                         <div class="column is-full">
-                            <h2 class="title is-3"><center>Collaborazioni</center></h2>
+                            <h2 class="title is-3"><center>Contratti</center></h2>
                             <table class="table is-striped is-pulled-right">
                                 <thead>
                                     <tr>
@@ -139,6 +139,12 @@
                                         <td>{{ row.begin }}</td>
                                         <td>{{ row.end }}</td>
                                         <td>{{ row.hoursWeek.type }} - {{ row.hoursWeek.totalHours }}</td>
+                                        <td>
+                                            <div class="buttons is-grouped-right">
+                                                <b-button type="is-info is-light" size="is-small" :disabled="row.disabled==1" @click="modEngagement(row)"><b-icon icon="pencil" size="is-small"></b-icon></b-button>
+                                                <b-button v-if="row.end && row.disabled == 0" type="is-warning" size="is-small" @click="renewEngagement(row)"><b-icon icon="account-reactivate" size="is-small"></b-icon></b-button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -219,6 +225,38 @@ export default {
             this.$http.get(`/hoursweek`).then(({ data }) => {
                 let hoursWeek = data.items;
                 let engagement = { begin: null, end: null, employeeId: this.employee.id, hoursWeekId: null };
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: AddEngagement,
+                    props: { engagement: engagement, hoursWeek: hoursWeek, isNew: true },
+                    hasModalCard: true,
+                    trapFocus: true
+                })
+            })
+        },
+        modEngagement: function(row) {
+            this.$http.get(`/hoursweek`).then(({ data }) => {
+                let hoursWeek = data.items;
+                let begin = row.begin ? new Date(row.begin) : null;
+                let end = row.end ? new Date(row.end) : null;
+
+                let engagement = { id: row.id, begin: begin, end: end, employeeId: this.employee.id, hoursWeekId: row.hoursWeekId };
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: AddEngagement,
+                    props: { engagement: engagement, hoursWeek: hoursWeek, isNew: false },
+                    hasModalCard: true,
+                    trapFocus: true
+                })
+            })
+        },
+        renewEngagement: function(row) {
+            this.$http.get(`/hoursweek`).then(({ data }) => {
+                let hoursWeek = data.items;
+                let begin = row.begin ? new Date(row.begin) : null;
+                let end = row.end ? new Date(row.end) : null;
+
+                let engagement = { begin: begin, end: end, employeeId: this.employee.id, hoursWeekId: row.hoursWeekId };
                 this.$buefy.modal.open({
                     parent: this,
                     component: AddEngagement,

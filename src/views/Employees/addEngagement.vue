@@ -46,8 +46,9 @@
                                 </b-select>
                             </b-field>
                         </div>
-                        <div class="column">
-                            <b-button type="is-primary" native-type="submit">Aggiungi</b-button>
+                        <div class="column buttons">
+                            <b-button type="is-primary" icon-right="content-save" native-type="submit">Salva</b-button>
+                            <b-button v-if="engagement.id" type="is-danger" icon-right="trash-can" @click="deleteEngagement()">Elimina</b-button>
                         </div>
                     </div>
                 </section>
@@ -70,13 +71,27 @@
                 }
                 if (this.isNew) {
                     this.$http.post(`/employees/${this.engagement.employeeId}/engagement`, this.engagement).then((items) => {
-                        console.log(items);
+                        this.$parent.$parent.employee.engagements = items.data;
+                        this.$parent.close();
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                } else {
+                    this.$http.patch(`/employees/${this.engagement.employeeId}/engagement/${this.engagement.id}`, this.engagement).then((items) => {
                         this.$parent.$parent.employee.engagements = items.data;
                         this.$parent.close();
                     }).catch((error) => {
                         console.log(error);
                     })
                 }
+            },
+            deleteEngagement: function() {
+                this.$http.delete(`/employees/${this.engagement.employeeId}/engagement/${this.engagement.id}`).then((items) => {
+                    this.$parent.$parent.employee.engagements = items.data;
+                    this.$parent.close();
+                }).catch((error) => {
+                    console.log(error);
+                })
             }
         }
     }

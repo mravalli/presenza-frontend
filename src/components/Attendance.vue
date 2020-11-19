@@ -151,6 +151,7 @@
                                     };
                                 }
                             }
+                            let totalHours = employee.actualEngagement ? employee.actualEngagement.hoursWeek.totalHours : null;
                             employees.push({
                                 id: `wh_${office.id}_${employee.id}`,
                                 employee_id: employee.id,
@@ -158,7 +159,7 @@
                                 color: `hsla(${office.color},100%, 54%, 12%)`,
                                 office: office.name,
                                 employee: employee.fullname,
-                                hours: employee.hoursWeek.totalHours,
+                                hours: totalHours,
                                 days: eDay
                             })
                         }).catch((error) => {
