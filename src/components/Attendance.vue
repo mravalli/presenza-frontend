@@ -15,15 +15,15 @@
             </thead>
             <tbody>
                 <tr v-for="row in orderedEmployees" :key="row.id" :style="{backgroundColor: row.color}">
-                    <td class="is-size-7">{{ row.employee.fullname }}</td>
-                    <td class="is-size-7"><div>{{ row.employee.hours }}</div></td>
+                    <td class="is-size-7">{{ row.employee_name }}</td>
+                    <td class="is-size-7"><div>{{ row.hours }}</div><div v-if="row.currentWeekHours"><strong>{{ row.currentWeekHours }}</strong></div></td>
                     <td class="is-size-7"><div><strong>O</strong></div><div><strong>E</strong></div><div><strong>G</strong></div></td>
-                    <td v-for="(day, d_index) of row.days" :key="day.day" :class="day.classes">
-                        <input class="is-size-7" v-model="row.days[d_index].hours" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)">
-                        <input class="is-size-7" v-model="row.days[d_index].disease" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)">
-                        <input class="is-size-7" v-model="row.days[d_index].justificationCode" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)" @click="openJustificationsBox()">
+                    <td v-for="day of row.days" :key="day.day" :class="day.classes">
+                        <input class="is-size-7" :value="day.hours" :class="day.classes" size=2 @change="hourChanged(day,$event,row)" @focus="currentWeekHoursFocus(day, row)">
+                        <input class="is-size-7" :value="day.disease" :class="day.classes" size=2 @change="diseaseChanged(day,$event,row)" @focus="currentWeekHoursFocus(day, row)">
+                        <input class="is-size-7" v-model="day.justificationCode" :class="day.classes" size=2 @change="dayChanged(day, employee)" @click="openJustificationsBox()">
                     </td>
-                    <td class="is-size-7">{{ row.office }}</td>
+                    <td class="is-size-7">{{ row.office_name }}</td>
                 </tr>
             </tbody>
         </table>
@@ -75,7 +75,7 @@
 <script>
     export default {
         name: 'Attendance',
-        props: ['employees', 'offices', 'first_day', 'last_day', 'justifications'],
+        props: ['employees', 'first_day', 'last_day', 'justifications'],
         data() {
             let days = this.formatColumn(this.first_day, this.last_day);
             //let employees = this.formatData(this.offices, days);
@@ -89,7 +89,7 @@
                 days: days,
                 employees2: this.formatData(this.employees, days),
                 justificationList: justifications,
-                justificationActive: false
+                justificationActive: false,
             }
         },
         computed: {
@@ -121,7 +121,8 @@
                     days.push({
                         classes: classes,
                         label: `${d.getDate()}`,
-                        day: `${d.getFullYear()}-${(d.getMonth() + 1)}-${d.getDate()}`
+                        day: `${d.getFullYear()}-${(d.getMonth() + 1)}-${d.getDate()}`,
+                        week: d.getWeekNumber(),
                     });
                 }
                 return days;
@@ -140,20 +141,28 @@
 
                     let eDay = []
                     for (const d of days) {
-                        eDay.push({classes: d.classes, day: d.day, hours: null, disease: null, justificationCode: null})
+                        eDay.push({classes: d.classes, day: d.day, hours: null, disease: null, justificationCode: null, week: d.week})
                     }
 
+                    let weeks = [];
                     this.$http.get(`/days?${params}`).then(({data}) => {
                         for (const d of data) {
                             let key = this.$lodash.findIndex(eDay, ['day', d.day]);
                             if (key != -1) {
                                 let classes = eDay[key]['classes'];
+                                if (weeks[eDay[key]['week']]) {
+                                    weeks[eDay[key]['week']] += d.hours + d.disease;
+                                } else {
+                                    weeks[eDay[key]['week']] = d.hours + d.disease;
+                                }
+                                console.log(eDay[key]['week'])
                                 eDay[key] = {
                                     classes: classes,
                                     day: d.day,
                                     hours: d.hours,
                                     disease: d.disease,
-                                    justificationCode: d.justificationCode
+                                    justificationCode: d.justificationCode,
+                                    week: eDay[key]['week']
                                 };
                             }
                         }
@@ -163,10 +172,12 @@
                             employee_id: employee.id,
                             office_id: office.id,
                             color: `hsla(${office.color},100%, 54%, 12%)`,
-                            office: office.name,
-                            employee: employee.fullname,
+                            office_name: office.name,
+                            employee_name: employee.fullname,
                             hours: totalHours,
-                            days: eDay
+                            days: eDay,
+                            weeks: weeks,
+                            currentWeekHours: null
                         })
                     }).catch((error) => {
                         console.error(error)
@@ -174,10 +185,29 @@
                 }
                 return _employees;
             },
-            dayChanged(office_id, e_index, d_index) {
-                let day = this.employees[e_index].days[d_index];
-                let employee_id = this.employees[e_index].employee_id;
-                this.$http.post(`/modday`, {officeId: office_id, employeeId: employee_id, day: day}).catch((error) => {
+            currentWeekHoursFocus(day, employee) {
+                employee.currentWeekHours = employee.weeks[day.week];
+            },
+            diseaseChanged(day, event, employee) {
+                if (parseFloat(event.target.value) > 0) {
+                    employee.weeks[day.week] += event.target.value - day.disease;
+                    day.disease = event.target.value;
+                    this.dayChanged(day, employee);
+                } else {
+                    event.target.value = null;
+                }
+            },
+            hourChanged(day, event, employee) {
+                if (parseFloat(event.target.value) > 0) {
+                    employee.weeks[day.week] += event.target.value - day.hours;
+                    day.hours = event.target.value;
+                    this.dayChanged(day, employee);
+                } else {
+                    event.target.value = null;
+                }
+            },
+            dayChanged(day, employee) {
+                this.$http.post(`/modday`, {officeId: employee.office_id, employeeId: employee.employee_id, day: day}).catch((error) => {
                    console.error(error)
                 })
             },
