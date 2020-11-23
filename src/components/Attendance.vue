@@ -14,14 +14,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row, e_index) in employees" :key="row.id" :style="{backgroundColor: row.color}">
-                    <td class="is-size-7">{{ row.employee }}</td>
-                    <td class="is-size-7"><div>{{ row.hours }}</div></td>
+                <tr v-for="row in orderedEmployees" :key="row.id" :style="{backgroundColor: row.color}">
+                    <td class="is-size-7">{{ row.employee.fullname }}</td>
+                    <td class="is-size-7"><div>{{ row.employee.hours }}</div></td>
                     <td class="is-size-7"><div><strong>O</strong></div><div><strong>E</strong></div><div><strong>G</strong></div></td>
                     <td v-for="(day, d_index) of row.days" :key="day.day" :class="day.classes">
-                        <input class="is-size-7" v-model="employees[e_index].days[d_index].hours" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)">
-                        <input class="is-size-7" v-model="employees[e_index].days[d_index].disease" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)">
-                        <input class="is-size-7" v-model="employees[e_index].days[d_index].justificationCode" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)" @click="openJustificationsBox()">
+                        <input class="is-size-7" v-model="row.days[d_index].hours" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)">
+                        <input class="is-size-7" v-model="row.days[d_index].disease" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)">
+                        <input class="is-size-7" v-model="row.days[d_index].justificationCode" :class="day.classes" size=2 @change="dayChanged(row.office_id,e_index,d_index)" @click="openJustificationsBox()">
                     </td>
                     <td class="is-size-7">{{ row.office }}</td>
                 </tr>
@@ -75,10 +75,10 @@
 <script>
     export default {
         name: 'Attendance',
-        props: ['offices', 'first_day', 'last_day', 'justifications'],
+        props: ['employees', 'offices', 'first_day', 'last_day', 'justifications'],
         data() {
             let days = this.formatColumn(this.first_day, this.last_day);
-            let employees = this.formatData(this.offices, days);
+            //let employees = this.formatData(this.offices, days);
             let justifications = '<table class="table is-narrow is-striped notification"><thead><tr><th>Codice</th><th>Descrizione</th></tr></thead><tbody>';
             for (const i in this.justifications) {
                 justifications += '<tr><td>' + this.justifications[i].code + '</td><td>' + this.justifications[i].name + '</td></tr>';
@@ -87,10 +87,15 @@
             return {
                 loading: false,
                 days: days,
-                employees: employees,
+                employees2: this.formatData(this.employees, days),
                 justificationList: justifications,
                 justificationActive: false
             }
+        },
+        computed: {
+          orderedEmployees: function () {
+            return this.$lodash.orderBy(this.employees2, 'id')
+          }
         },
         watch: {
             first_day: function() {
@@ -121,55 +126,53 @@
                 }
                 return days;
             },
-            formatData(offices, days) {
-                let employees = [];
-                for (const officeKey in offices) {
-                    let office = offices[officeKey]
-                    for (const employeeKey in office.employees) {
-                        let employee = office.employees[employeeKey]
-                        const params = [
-                            `first_day=${this.first_day}`,
-                            `last_day=${this.last_day}`,
-                            `office_id=${office.id}`,
-                            `employee_id=${employee.id}`
-                        ].join('&')
-                        let eDay = []
-                        for (const d of days) {
-                            eDay.push({classes: d.classes, day: d.day, hours: 0, disease:0, justificationCode: null})
-                        }
-                        this.$http.get(`/days?${params}`).then(({data}) => {
-                            for (const d of data) {
-                                let key = this.$lodash.findIndex(eDay, ['day', d.day]);
-                                if (key != -1) {
-                                    let classes = eDay[key]['classes'];
-                                    eDay[key] = {
-                                        classes: classes,
-                                        day: d.day,
-                                        hours: d.hours,
-                                        disease: d.disease,
-                                        justificationCode: d.justificationCode
-                                    };
-                                }
-                            }
-                            let totalHours = employee.actualEngagement ? employee.actualEngagement.hoursWeek.totalHours : null;
-                            employees.push({
-                                id: `wh_${office.id}_${employee.id}`,
-                                employee_id: employee.id,
-                                office_id: office.id,
-                                color: `hsla(${office.color},100%, 54%, 12%)`,
-                                office: office.name,
-                                employee: employee.fullname,
-                                hours: totalHours,
-                                days: eDay
-                            })
-                        }).catch((error) => {
-                            console.error(error)
-                        });
+            formatData(employees, days) {
+                let _employees = [];
+                for (const key in employees) {
+                    let employee = employees[key].employee;
+                    let office = employees[key].office;
+                    const params = [
+                        `first_day=${this.first_day}`,
+                        `last_day=${this.last_day}`,
+                        `office_id=${office.id}`,
+                        `employee_id=${employee.id}`
+                    ].join('&')
+
+                    let eDay = []
+                    for (const d of days) {
+                        eDay.push({classes: d.classes, day: d.day, hours: null, disease: null, justificationCode: null})
                     }
-                        
-                        
+
+                    this.$http.get(`/days?${params}`).then(({data}) => {
+                        for (const d of data) {
+                            let key = this.$lodash.findIndex(eDay, ['day', d.day]);
+                            if (key != -1) {
+                                let classes = eDay[key]['classes'];
+                                eDay[key] = {
+                                    classes: classes,
+                                    day: d.day,
+                                    hours: d.hours,
+                                    disease: d.disease,
+                                    justificationCode: d.justificationCode
+                                };
+                            }
+                        }
+                        let totalHours = employee.actualEngagement ? employee.actualEngagement.hoursWeek.totalHours : null;
+                        _employees.push({
+                            id: key,
+                            employee_id: employee.id,
+                            office_id: office.id,
+                            color: `hsla(${office.color},100%, 54%, 12%)`,
+                            office: office.name,
+                            employee: employee.fullname,
+                            hours: totalHours,
+                            days: eDay
+                        })
+                    }).catch((error) => {
+                        console.error(error)
+                    });
                 }
-                return employees;
+                return _employees;
             },
             dayChanged(office_id, e_index, d_index) {
                 let day = this.employees[e_index].days[d_index];

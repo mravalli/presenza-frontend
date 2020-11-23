@@ -36,7 +36,11 @@
                     <div class="columns">
                         <div class="column">
                             <b-field label="Orario" label-position="on-border">
-                                <b-select v-if="hoursWeek" v-model="engagement.hoursWeekId">
+                                <b-select
+                                    required
+                                    v-if="hoursWeek"
+                                    v-model="engagement.hoursWeekId"
+                                    validation-message="Questo campo è obbligatorio!">
                                     <option
                                         v-for="hoursWeek in hoursWeek"
                                         :value="hoursWeek.id"
@@ -73,14 +77,26 @@
                     this.$http.post(`/employees/${this.engagement.employeeId}/engagement`, this.engagement).then((items) => {
                         this.$parent.$parent.employee.engagements = items.data;
                         this.$parent.close();
-                    }).catch((error) => {
-                        console.log(error);
-                    })
+                    }).catch(error => {
+                        if (error.response) {
+                            let data = error.response.data;
+                            if (data.errno == 11) {
+                                this.$buefy.notification.open({
+                                    duration: 5000,
+                                    message: `Qualcosa è andato storto, verifica che il periodo selezionato non si stia accavallando con uno già presente`,
+                                    position: 'is-bottom-right',
+                                    type: 'is-danger',
+                                    hasIcon: true
+                                })
+                            }
+                        }
+                    });
                 } else {
                     this.$http.patch(`/employees/${this.engagement.employeeId}/engagement/${this.engagement.id}`, this.engagement).then((items) => {
                         this.$parent.$parent.employee.engagements = items.data;
                         this.$parent.close();
                     }).catch((error) => {
+                        console.log('ciao2')
                         console.log(error);
                     })
                 }

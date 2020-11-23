@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </section>
-            <Attendance v-if="offices" :offices="offices" :first_day="first_day" :last_day="last_day" :justifications="justifications"/>
+            <Attendance v-if="offices" :employees="employees" :offices="offices" :first_day="first_day" :last_day="last_day" :justifications="justifications"/>
         </section>
     </div>
 </template>
@@ -52,6 +52,7 @@ export default {
             dates: dates,
             first_day: first_day,
             last_day: last_day,
+            employees: null,
             offices: null,
             justifications: null,
             loading: false,
@@ -61,6 +62,7 @@ export default {
         loadAsyncData() {
             this.loading = true;
             this.$http.get(`/`).then(({ data }) => {
+                this.employees = data.employees;
                 this.offices = data.offices;
                 this.justifications = data.justifications;
 
