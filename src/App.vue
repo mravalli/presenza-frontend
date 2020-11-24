@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container is-widescreen">
+    <div v-if="isLoggedIn" class="container is-widescreen">
       <b-navbar>
         <template slot="brand">
           <b-navbar-item tag="router-link" :to="{ path: '/' }">
@@ -38,9 +38,21 @@
       </b-navbar>
       <router-view/>
     </div>
+    <div v-if="!isLoggedIn">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <style>
 
 </style>
+<script>
+  export default {
+    data() {
+      return {
+        isLoggedIn: this.$store.state.user.loggedInStatus
+      }
+    }
+  }
+</script>

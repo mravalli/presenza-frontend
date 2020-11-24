@@ -19,7 +19,8 @@
     "lodash": "^4.17.20",
     "vue": "^2.6.11",
     "vue-router": "^3.4.5",
-    "vue-wysiwyg": "^1.7.2"
+    "vue-wysiwyg": "^1.7.2",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
