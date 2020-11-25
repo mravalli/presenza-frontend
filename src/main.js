@@ -56,6 +56,7 @@ const store = new Vuex.Store({
   },
   actions: {
     login: function(context, userInput) {
+      console.log(userInput)
       axios.post(`/auth/login`, userInput).then(({data}) => {
         context.commit('addWebToken', data.webtoken);
         router.push({name: 'Home'});
