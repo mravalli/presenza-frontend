@@ -86,12 +86,13 @@
     import ColorPicker from '@radial-color-picker/vue-color-picker';
     export default {
         components: { ColorPicker },
-        props: ['office', 'managers'],
-        data() {
-            return {
-                filteredEmployees: this.managers,
-                employees: this.managers,
-                hue: this.office.color,
+        props: ['office', 'employees', 'managers'],
+        computed: {
+            filteredEmployees: function() {
+                return this.employees
+            },
+            hue: function() {
+                return this.office.color
             }
         },
         methods: {
@@ -123,7 +124,8 @@
                 })
             },
             getFilteredEmployees(text) {
-                this.filteredEmployees = this.managers.filter((option) => {
+                console.log(this.employees)
+                this.filteredEmployees = this.employees.filter((option) => {
                     return option.fullname
                         .toString()
                         .toLowerCase()

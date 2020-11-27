@@ -130,7 +130,7 @@
                                         <th>Fine</th>
                                         <th>Tipo</th>
                                         <th>
-                                            <b-button type="is-light is-success is-small" icon-right="plus" @click="newEngagement()">Nuova</b-button>
+                                            <b-button v-if="employee.id" type="is-light is-success is-small" icon-right="plus" @click="newEngagement()">Nuova</b-button>
                                         </th>
                                     </tr>
                                 </thead>

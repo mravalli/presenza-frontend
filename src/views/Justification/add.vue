@@ -25,6 +25,7 @@ export default {
     data() {
         return {
             justification: {
+                id: null,
                 name: null,
                 code: null,
                 limit: null

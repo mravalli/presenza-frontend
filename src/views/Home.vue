@@ -22,6 +22,7 @@
                                         range>
                                     </b-datepicker>
                                 </b-field>
+                                <b-button type="is-light" icon-right="download" @click="exportThis()">Esporta Il Periodo Selezionato</b-button>
                             </div>
                         </div>
                     </div>
@@ -85,6 +86,20 @@ export default {
         getLastDayOfMonth(year, month) {
             let date = new Date(year, month, 0);
             return year + '-' + month + '-' + date.getDate();
+        },
+        exportThis() {
+            const params = [
+                `first_day=${this.first_day}`,
+                `last_day=${this.last_day}`
+            ].join('&')
+            this.$http.get(`/export?${params}`, {responseType: 'blob'}).then((response) => {
+                var fileURL = window.URL.createObjectURL(new Blob([response.data], {type: response.headers['content-type']}));
+                var fileLink = document.createElement('a');
+                fileLink.href = fileURL;
+                fileLink.setAttribute('download', 'presenze.xls');
+                document.body.appendChild(fileLink);
+                fileLink.click();
+            });
         }
     },
     mounted() {

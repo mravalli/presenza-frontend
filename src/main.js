@@ -11,8 +11,9 @@ import 'buefy/dist/buefy.css'
 import '@mdi/font/css/materialdesignicons.css'
 import "vue-wysiwyg/dist/vueWysiwyg.css"
 
-//axios.defaults.baseURL = 'https://api.presenza.neuro3.com';
-axios.defaults.baseURL = 'http://localhost'
+//axios.defaults.baseURL = 'https://presenza.neuro3.com/api/';
+axios.defaults.baseURL = '/api'
+//axios.defaults.baseURL = 'http://localhost/'
 
 /** https://stackoverflow.com/a/6117889 */
 Date.prototype.getWeekNumber = function(){
@@ -42,7 +43,7 @@ const store = new Vuex.Store({
   state: {
     user: {
       userName: '',
-      loggedInStatus: false,
+      loggedInStatus: true,
       authToken: ''
     }
   },
