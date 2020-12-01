@@ -1,5 +1,5 @@
 <template>
-    <section class="is-medium">
+    <section class="is-medium mt-6">
          <div class="ml-6 my-2 is-size-7">
             <strong>O</strong>: Ore Ordinarie - <strong>E</strong>: Ore Aggiuntive come da Giustificativo - <strong>G</strong>: Giustificativo
         </div>

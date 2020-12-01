@@ -1,19 +1,18 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
-import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format'
-import axios from 'axios'
-import lodash from 'lodash'
-import App from './App.vue'
-import router from './router'
+
 import Buefy from 'buefy'
+import lodash from 'lodash'
+import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format'
 import wysiwyg from "vue-wysiwyg"
+
+import axios from './helper/axios'
+import store from './store'
+import router from './router'
+import App from './App.vue'
+
 import 'buefy/dist/buefy.css'
 import '@mdi/font/css/materialdesignicons.css'
 import "vue-wysiwyg/dist/vueWysiwyg.css"
-
-//axios.defaults.baseURL = 'https://presenza.neuro3.com/api/';
-axios.defaults.baseURL = '/api'
-//axios.defaults.baseURL = 'http://localhost/'
 
 /** https://stackoverflow.com/a/6117889 */
 Date.prototype.getWeekNumber = function(){
@@ -32,45 +31,17 @@ Vue.use(VueFilterDateFormat, {
 	timezone: 2
 })
 
-Vue.use(Vuex)
 Vue.use(Buefy)
 Vue.use(wysiwyg, {forcePlainTextOnPaste: true, hideModules: {"code": true, "headings": true, "image": true, "table": true, "link": true, "removeFormat": true}, locale: 'it', maxHeight: "300px"})
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$lodash = lodash
 
-const store = new Vuex.Store({
-  state: {
-    user: {
-      userName: '',
-      loggedInStatus: true,
-      authToken: ''
-    }
-  },
-  mutations: {
-    addWebToken: function(state, webtoken) {
-      state.user.authToken = webtoken;
-    },
-    removeWebToken: function(state) {
-      state.user.authToken = '';
-    }
-  },
-  actions: {
-    login: function(context, userInput) {
-      console.log(userInput)
-      axios.post(`/auth/login`, userInput).then(({data}) => {
-        context.commit('addWebToken', data.webtoken);
-        router.push({name: 'Home'});
-      })
-    },
-    logout: function(context) {
-      context.commit('removeWebToken');
-      router.push({name: 'GoodBye'});
-    }
-  }
-})
 new Vue({
   router,
-  store: store,
+  store,
+  beforeCreate() {
+    this.$store.commit('initialiseStore')
+  },
   render: h => h(App)
 }).$mount('#app')

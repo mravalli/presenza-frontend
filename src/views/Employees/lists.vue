@@ -17,7 +17,7 @@
                 </div>
             </div>
         </section>
-        <section class="is-medium">
+        <section class="is-medium mt-6">
             <b-table
                 :data="data"
                 :loading="loading"
