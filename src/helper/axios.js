@@ -12,7 +12,7 @@ let subscribers = [];
 async function resetTokenAndReattemptRequest(error) {
     try {
         const { response: errorResponse } = error;
-        const resetToken = await tokenUtils.getResetToken(); // Your own mechanism to get the refresh token to refresh the JWT token
+        const resetToken = await tokenUtils.getResetToken();
         if (!resetToken) {
             // We can't refresh, throw the error anyway
             return Promise.reject(error);
@@ -34,7 +34,7 @@ async function resetTokenAndReattemptRequest(error) {
             isAlreadyFetchingAccessToken = true;
             const response = await axios({
                 method: 'post',
-                url: `${baseURL}/auth/`,
+                url: `${baseURL}/auth/refresh`,
                 data: {
                     token: resetToken // Just an example, your case may vary
                 }
@@ -42,7 +42,7 @@ async function resetTokenAndReattemptRequest(error) {
             if (!response.data) {
                 return Promise.reject(error);
             }
-            const newToken = response.data.token;
+            const newToken = response.data.token.access_token;
             tokenUtils.saveRefreshToken(newToken); // save the newly refreshed token for other requests to use
             isAlreadyFetchingAccessToken = false;
             onAccessTokenFetched(newToken);
@@ -64,7 +64,9 @@ function addSubscriber(callback) {
 }
 
 function isTokenExpiredError(errorResponse) {
-    console.log(errorResponse)
+    if (errorResponse.status === 403) {
+        return true;
+    }
     return false;
 }
 
@@ -73,7 +75,7 @@ const customAxios = axios.create({
 });
 
 customAxios.interceptors.request.use(function(config) {
-    const token = store.state.user.token;
+    const token = store.state.user.access_token;
     config.headers.Authorization =  token ? `Bearer ${token}` : '';
     return config;
 });

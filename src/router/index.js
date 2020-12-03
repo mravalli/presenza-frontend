@@ -6,10 +6,12 @@ import store from '../store'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', name: 'Home', component: Home },
+  { path: '/', meta: {requiresLogin: true}, name: 'Home', component: Home },
   { path: '/about', name: 'About', component: () => import('../views/About.vue') },
   { path: '/login', name: 'Login', component: () => import('../views/Login.vue') },
   { path: '/goodbye', name: 'GoodBye', component: () => import('../views/GoodBye.vue') },
+
+  { path: '/calendario', name: 'Calendario', meta: {requiresLogin: true}, component: () => import ('../views/Calendar.vue') },
 
   { path: '/impostazioni', name: 'Impostazioni', meta: {requiresLogin: true}, component: () => import ('../views/Settings.vue') },
   { path: '/impostazioni/ore', name: 'Ore Settimanali', meta: {requiresLogin: true}, component: () => import ('../views/HoursWeek/lists.vue') },

@@ -22,7 +22,9 @@
               <b-navbar-item tag="router-link" :to="{ path: '/sedi' }">
                 Sedi
               </b-navbar-item>
-              <b-navbar-dropdown label="Impostazioni">
+            </template>
+            <template slot="end">
+              <b-navbar-dropdown :label="user.name">
                 <b-navbar-item tag="router-link" :to="{ path: '/impostazioni' }">
                   Azienda
                 </b-navbar-item>
@@ -32,10 +34,6 @@
                 <b-navbar-item tag="router-link" :to="{ path: '/impostazioni/giustificativi' }">
                   Tabella Giustificativi
                 </b-navbar-item>
-              </b-navbar-dropdown>
-            </template>
-            <template slot="end">
-              <b-navbar-dropdown :label="user.name">
                 <b-navbar-item @click="logout()">
                   <b-icon icon="power" size="small"></b-icon> <span>Esci</span>
                 </b-navbar-item>

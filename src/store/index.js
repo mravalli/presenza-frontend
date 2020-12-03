@@ -5,12 +5,11 @@ import tokenUtils from '../helper/tokenUtils'
 import router from '../router'
 
 Vue.use(Vuex)
-let baseURL = process.env.VUE_APP_API_URL
 
 const store = new Vuex.Store({
   state: {
     user: {
-        token: '',
+        access_token: '',
         id: '',
         email: '',
         name: '',
@@ -24,33 +23,43 @@ const store = new Vuex.Store({
             this.replaceState(Object.assign(state, JSON.parse(localStorage.getItem('store'))));
         }
     },
-    addWebToken: function(state, data) {
-      state.user.token = data.jwt;
-      const user = tokenUtils.decodeToken(data.jwt)
+    setUser: function(state, user) {
       state.user.id = user.data.id
       state.user.name = user.data.firstname
       state.user.role = user.data.role
       state.user.isLoggedIn = true;
     },
+    addWebToken: function(state, token) {
+      state.user.access_token = token;
+    },
     removeWebToken: function(state) {
-      state.user.token = '';
+      state.user.access_token = '';
       state.user.id = '';
       state.user.email = '';
       state.user.name = '';
       state.user.role = '';
       state.user.isLoggedIn = false;
+      localStorage.removeItem('refresh');
+    },
+    addRefreshToken: function(token) {
+      localStorage.setItem('refresh', token);
     }
   },
   actions: {
     login: function(context, userInput) {
         return new Promise((resolve, reject) => {
-            axios.post(`${baseURL}/auth/login`, userInput).then(({data}) => {
+            axios.post(`/auth/login`, userInput).then(({data}) => {
                 if (data.jwt !== '') {
-                    context.commit('addWebToken', data);
-                    router.push({name: 'Home'});
+                  const access_token = data.jwt.access_token;
+                  const refresh_token = data.jwt.refresh_token;
+                  const user = tokenUtils.decodeToken(access_token);
+                  context.commit('addWebToken', access_token);
+                  context.commit('addRefreshToken', refresh_token);
+                  context.commit('setUser', user);
+                  router.push({name: 'Home'});
                 }
             }).catch(error => {
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     resolve(403)
                 }
                 reject(error)
