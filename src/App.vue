@@ -28,6 +28,9 @@
                 <b-navbar-item tag="router-link" :to="{ path: '/impostazioni' }">
                   Azienda
                 </b-navbar-item>
+                <b-navbar-item tag="router-link" :to="{ path: '/utenti' }">
+                  Utenti
+                </b-navbar-item>
                 <b-navbar-item tag="router-link" :to="{ path: '/impostazioni/ore' }">
                   Tabella Ore Settimanali
                 </b-navbar-item>

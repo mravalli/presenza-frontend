@@ -29,6 +29,9 @@ const store = new Vuex.Store({
       state.user.role = user.data.role
       state.user.isLoggedIn = true;
     },
+    setName: function(state, name) {
+      state.user.name = name
+    },
     addWebToken: function(state, token) {
       state.user.access_token = token;
     },
@@ -40,9 +43,6 @@ const store = new Vuex.Store({
       state.user.role = '';
       state.user.isLoggedIn = false;
       localStorage.removeItem('refresh');
-    },
-    addRefreshToken: function(token) {
-      localStorage.setItem('refresh', token);
     }
   },
   actions: {
@@ -53,8 +53,8 @@ const store = new Vuex.Store({
                   const access_token = data.jwt.access_token;
                   const refresh_token = data.jwt.refresh_token;
                   const user = tokenUtils.decodeToken(access_token);
+                  localStorage.setItem('refresh', refresh_token);
                   context.commit('addWebToken', access_token);
-                  context.commit('addRefreshToken', refresh_token);
                   context.commit('setUser', user);
                   router.push({name: 'Home'});
                 }
@@ -70,6 +70,9 @@ const store = new Vuex.Store({
     logout: function(context) {
       context.commit('removeWebToken');
       router.push({name: 'GoodBye'});
+    },
+    changeName: function(context, name) {
+      context.commit('setName', name);
     }
   }
 });

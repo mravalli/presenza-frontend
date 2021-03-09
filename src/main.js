@@ -14,6 +14,22 @@ import 'buefy/dist/buefy.css'
 import '@mdi/font/css/materialdesignicons.css'
 import "vue-wysiwyg/dist/vueWysiwyg.css"
 
+import * as Sentry from "@sentry/browser";
+import { Integrations } from "@sentry/tracing";
+
+Sentry.init({
+  Vue,
+  dsn: "https://5b037a2d9a13426097cb6c5d38a7b45b@o504271.ingest.sentry.io/5591239",
+  autoSessionTracking: true,
+  integrations: [
+    new Integrations.BrowserTracing(),
+  ],
+
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0,
+});
+
 /** https://stackoverflow.com/a/6117889 */
 Date.prototype.getWeekNumber = function(){
   var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()))
