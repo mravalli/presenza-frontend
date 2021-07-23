@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../store'
 import tokenUtils from './tokenUtils'
 
-let baseURL = process.env.VUE_APP_API_URL
+let baseURL = import.meta.env.VITE_API_URL
 
 // https://www.techynovice.com/setting-up-JWT-token-refresh-mechanism-with-axios/
 let isAlreadyFetchingAccessToken = false;
@@ -64,7 +64,7 @@ function addSubscriber(callback) {
 }
 
 function isTokenExpiredError(errorResponse) {
-    if (errorResponse.status === 403) {
+    if (errorResponse && errorResponse.status === 403) {
         return true;
     }
     return false;
@@ -92,5 +92,7 @@ customAxios.interceptors.response.use(
         return Promise.reject(error)
     }
 );
+
+console.log(customAxios)
 
 export default customAxios

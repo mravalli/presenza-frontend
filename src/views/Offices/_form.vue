@@ -139,5 +139,5 @@
     }
 </script>
 <style>
-@import '~@radial-color-picker/vue-color-picker/dist/vue-color-picker.min.css';
+@import '@radial-color-picker/vue-color-picker/dist/vue-color-picker.min.css';
 </style>

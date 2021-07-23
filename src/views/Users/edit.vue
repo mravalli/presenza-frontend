@@ -18,7 +18,7 @@
     </section>
 </template>
 <script>
-    import UserForm from './_form'
+    import UserForm from './_form.vue'
     export default {
         props: ['id'],
         components: {'user-form': UserForm},

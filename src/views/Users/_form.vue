@@ -65,7 +65,7 @@
     </form>
 </template>
 <script>
-    import ChgPassword from './chgPassword';
+    import ChgPassword from './chgPassword.vue';
     import Password from 'vue-password-strength-meter'
     export default {
         props: ['user'],
