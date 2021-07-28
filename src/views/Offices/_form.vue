@@ -92,7 +92,7 @@
                 return this.employees
             },
             hue: function() {
-                return this.office.color
+                return this.office.color ?? 0;
             }
         },
         methods: {
@@ -103,6 +103,11 @@
                 e.preventDefault();
                 this.office.color = Math.ceil(this.hue);
                 if (this.office.id === null) {
+                    
+                    // TODO: mmmmmmm
+                    let color = this.office.color ? this.office.color : 0;
+                    this.office.color = this.hue;
+
                     this.$http.post(`/offices`, this.office).then(() => {
                         this.$router.push({name: 'Sedi'});
                     }).catch((error) => {
@@ -120,7 +125,16 @@
                 this.$http.delete(`/offices/` + this.office.id).then(() => {
                     this.$router.push({name: 'Sedi'});
                 }).catch((error) => {
-                    console.log(error);
+                    if (error.response.status === 412) {
+                        this.$buefy.toast.open({
+                            duration: 5000,
+                            message: `Questa sede non può essere eliminata. La causa potrebbe essere la presenza di vecchie registrazioni`,
+                            position: 'is-bottom',
+                            type: 'is-danger'
+                        })
+                    } else {
+                        console.log(error.response.status);
+                    }
                 })
             },
             getFilteredEmployees(text) {
@@ -133,7 +147,7 @@
                 })
             },
             updateColor(hue) {
-                this.hue = hue;
+                this.office.color = hue;
             }
         },
     }
