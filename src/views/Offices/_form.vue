@@ -10,7 +10,7 @@
                                     required
                                     v-model="office.name"
                                     validation-message="Il Nome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
-                                    pattern="^[\sa-zA-Z]{3,64}$"
+                                    pattern="^[\sa-zA-Zàèìòù]{3,64}$"
                                     placeholder="Filiale 1"
                                     maxlength=64>
                                 </b-input>
@@ -36,7 +36,7 @@
                                     required
                                     v-model="office.location"
                                     validation-message="La dislocazione della sede deve essere compreso tra 3 e 64 caratteri!"
-                                    pattern="^[\sa-zA-Z]{3,64}$"
+                                    pattern="^[\sa-zA-Zàèìòù]{3,64}$"
                                     placeholder="Piazza Navona"
                                     maxlength=64>
                                 </b-input>
@@ -52,7 +52,7 @@
                                     autocomplete
                                     field="fullname"
                                     icon="label"
-                                    placeholder="Aggiungi un collaboratore"
+                                    placeholder="Aggiungi un dipendente"
                                     @typing="getFilteredEmployees">
                                     <template slot-scope="props">
                                         {{ props.option.fullname }} <i>({{ props.option.birthday }})</i>
@@ -87,9 +87,20 @@
     export default {
         components: { ColorPicker },
         props: ['office', 'employees', 'managers'],
+        data() {
+            return {
+                femployees: this.employees
+            };
+        },
         computed: {
-            filteredEmployees: function() {
-                return this.employees
+            filteredEmployees: {
+                get() {
+                    return this.femployees
+                },
+                set(value)
+                {
+                    this.femployees = value
+                }
             },
             hue: function() {
                 return this.office.color ?? 0;
@@ -138,7 +149,6 @@
                 })
             },
             getFilteredEmployees(text) {
-                console.log(this.employees)
                 this.filteredEmployees = this.employees.filter((option) => {
                     return option.fullname
                         .toString()

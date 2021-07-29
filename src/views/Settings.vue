@@ -24,7 +24,7 @@
                                         required
                                         v-model="company.fullname"
                                         validation-message="Il Nome della società è obbligatorio e deve essere compreso tra 3 e 150 caratteri!"
-                                        pattern="^[\sa-zA-Z]{3,150}$"
+                                        pattern="^[\sa-zA-Zàèìòù]{3,150}$"
                                         placeholder="Società S.r.l."
                                         maxlength=150>
                                     </b-input>
@@ -83,7 +83,7 @@
                                         <b-field label="Città" label-position="on-border">
                                             <b-input
                                                 maxlength="150"
-                                                pattern="^[\sa-zA-Z]{3,150}$"
+                                                pattern="^[\sa-zA-Zàèìòù]{3,150}$"
                                                 placeholder="Città del Capo"
                                                 v-model="company.city"
                                                 required>
@@ -130,7 +130,7 @@
                                     <b-input
                                         v-model="company.daysOff"
                                         type="number"
-                                        min="28">
+                                        min="26">
                                     </b-input>
                                     <p class="control">
                                         <span class="button is-static">giorni</span>
@@ -142,7 +142,7 @@
                                     <b-input
                                         v-model="company.hoursLeave"
                                         type="number"
-                                        min="88">
+                                        min="32">
                                     </b-input>
                                     <p class="control">
                                         <span class="button is-static">ore</span>

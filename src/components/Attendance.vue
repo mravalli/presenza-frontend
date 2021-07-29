@@ -3,30 +3,32 @@
          <div class="ml-6 my-2 is-size-7">
             <strong>O</strong>: Ore Ordinarie - <strong>E</strong>: Ore Aggiuntive come da Giustificativo - <strong>G</strong>: Giustificativo
         </div>
-        <table class="table is-narrow">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Ore</th>
-                    <th></th>
-                    <th v-for="column in days" :key="column.label" :class="column.classes">{{ column.label }}</th>
-                    <th>Sede</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="row in orderedEmployees" :key="row.id" :style="{backgroundColor: row.color}">
-                    <td class="is-size-7">{{ row.employee_name }}</td>
-                    <td class="is-size-7"><div>{{ row.hours }}</div><div v-if="row.currentWeekHours"><strong>{{ row.currentWeekHours }}</strong></div></td>
-                    <td class="is-size-7"><div><strong>O</strong></div><div><strong>E</strong></div><div><strong>G</strong></div></td>
-                    <td v-for="day of row.days" :key="day.day" :class="day.classes">
-                        <input class="is-size-7" :value="day.hours" :class="day.classes" size=2 @change="hourChanged(day,$event,row)" @focus="currentWeekHoursFocus(day, row)">
-                        <input class="is-size-7" :value="day.disease" :class="day.classes" size=2 @change="diseaseChanged(day,$event,row)" @focus="currentWeekHoursFocus(day, row)">
-                        <input class="is-size-7" v-model="day.justificationCode" :class="day.classes" size=2 @change="dayChanged(day, employee)" @click="openJustificationsBox()">
-                    </td>
-                    <td class="is-size-7">{{ row.office_name }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table class="table is-narrow">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ore</th>
+                        <th></th>
+                        <th v-for="column in days" :key="column.label" :class="column.classes">{{ column.label }}</th>
+                        <th>Sede</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="row in orderedEmployees" :key="row.id" :style="{backgroundColor: row.color}">
+                        <td class="is-size-7">{{ row.employee_name }}</td>
+                        <td class="is-size-7"><div>{{ row.hours }}</div><div v-if="row.currentWeekHours"><strong>{{ row.currentWeekHours }}</strong></div></td>
+                        <td class="is-size-7"><div><strong>O</strong></div><div><strong>E</strong></div><div><strong>G</strong></div></td>
+                        <td v-for="day of row.days" :key="day.day" :class="day.classes">
+                            <input class="is-size-8" :value="day.hours" :class="day.classes" size=2 @change="hourChanged(day,$event,row)" @focus="currentWeekHoursFocus(day, row)">
+                            <input class="is-size-8" :value="day.disease" :class="day.classes" size=2 @change="diseaseChanged(day,$event,row)" @focus="currentWeekHoursFocus(day, row)">
+                            <input class="is-size-8" v-model="day.justificationCode" :class="day.classes" size=2 @change="dayChanged(day, employee)" @click="openJustificationsBox()">
+                        </td>
+                        <td class="is-size-7">{{ row.office_name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 </template>
 

@@ -13,9 +13,9 @@ const routes = [
 
   { path: '/calendario', name: 'Calendario', meta: {requiresLogin: true}, component: () => import ('../views/Calendar.vue') },
   
-  { path: '/collaboratori', name: 'Collaboratori', meta: { requiresLogin: true }, component: () => import('../views/Employees/lists.vue') },
-  { path: '/collaboratore/nuovo', meta: {requiresLogin: true}, component: () => import('../views/Employees/add.vue') },
-  { path: '/collaboratore/:id(\\d+)', meta: {requiresLogin: true}, component: () => import('../views/Employees/profile.vue') },
+  { path: '/dipendenti', name: 'Dipendenti', meta: { requiresLogin: true }, component: () => import('../views/Employees/lists.vue') },
+  { path: '/dipendente/nuovo', meta: {requiresLogin: true}, component: () => import('../views/Employees/add.vue') },
+  { path: '/dipendente/:id(\\d+)', meta: {requiresLogin: true}, component: () => import('../views/Employees/profile.vue') },
 
   { path: '/impostazioni', name: 'Impostazioni', meta: {requiresLogin: true}, component: () => import ('../views/Settings.vue') },
   { path: '/impostazioni/ore', name: 'Ore Settimanali', meta: {requiresLogin: true}, component: () => import ('../views/HoursWeek/lists.vue') },

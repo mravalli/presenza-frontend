@@ -11,7 +11,7 @@
                                     required
                                     v-model="employee.firstname"
                                     validation-message="Il Nome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
-                                    pattern="^[\sa-zA-Z]{3,64}$"
+                                    pattern="^[\sa-zA-Zàèìòù]{3,64}$"
                                     placeholder="Mario"
                                     maxlength=64>
                                 </b-input>
@@ -23,7 +23,7 @@
                                     required
                                     v-model="employee.lastname"
                                     validation-message="Il Cognome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
-                                    pattern="^[\sa-zA-Z]{3,64}$"
+                                    pattern="^[\sa-zA-Zàèìòù]{3,64}$"
                                     placeholder="Rossi"
                                     maxlength=64>
                                 </b-input>
@@ -42,8 +42,9 @@
                             </b-field>
                         </div>
                         <div class="column is-one-fifth">
-                            <b-field label="Data di Nascita" label-position="on-border">
+                            <b-field label="Data di Nascita *" label-position="on-border">
                                 <b-datepicker
+                                    required
                                     v-model="employee.birthday"
                                     locale="it-IT"
                                     icon="calendar-today"
@@ -54,17 +55,20 @@
                     </div>
                     <div class="columns">
                         <div class="column is-three-fifths">
-                            <b-field label="Indirizzo" label-position="on-border">
+                            <b-field label="Indirizzo *" label-position="on-border">
                                 <b-input
+                                    required
                                     v-model="employee.address"
+                                    validation-message="Questo campo non può rimanere vuoto"
                                     placeholder="Via dei Ciliegi, 99"
                                     maxlength=150>
                                 </b-input>
                             </b-field>
                         </div>
                         <div class="column is-one-fifth">
-                            <b-field label="CAP" label-position="on-border">
+                            <b-field label="CAP *" label-position="on-border">
                                 <b-input
+                                    required
                                     v-model="employee.cap"
                                     pattern="[0-9]{5}"
                                     maxlength=5
@@ -74,11 +78,13 @@
                             </b-field>
                         </div>
                         <div class="column is-one-fifth">
-                            <b-field label="Città" label-position="on-border">
+                            <b-field label="Città *" label-position="on-border">
                                 <b-input
+                                    required
                                     maxlength="150"
-                                    pattern="^[\sa-zA-Z]{3,150}$"
+                                    pattern="^[\sa-zA-Zàèìòù]{3,150}$"
                                     placeholder="Città del Capo"
+                                    validation-message="Questo campo non può rimanere vuoto"
                                     v-model="employee.city">
                                 </b-input>
                             </b-field>
@@ -96,20 +102,22 @@
                             </b-field>
                         </div>
                         <div class="column is-half">
-                            <b-field label="Cellulare" label-position="on-border">
+                            <b-field label="Cellulare *" label-position="on-border">
                                 <b-input
+                                    required
                                     v-model="employee.mobile"
                                     validation-message="Il numero inserito non sembra essere valido"
                                     pattern="^((\+|00)?39)?\s3\d{2}\s?(\d{3}\s(\d{3,4}|(\d{2}\s\d{2}))|\d{6,7})$"
-                                    placeholder="XXX XXX X  XXX">
+                                    placeholder="XXX XXX XXXX">
                                 </b-input>
                             </b-field>
                         </div>
                     </div>
                     <div class="columns">
                         <div class="column is-full">
-                            <b-field label="Email" label-position="on-border">
+                            <b-field label="Email *" label-position="on-border">
                                 <b-input
+                                    required
                                     v-model="employee.email"
                                     validation-message="L'Indirizzo email inserito non sembra essere valido"
                                     type="email"
@@ -190,7 +198,7 @@ export default {
     props: ['employee', 'hoursWeeks'],
     methods: {
         backToList: function() {
-            this.$router.push({name: 'Collaboratori'});
+            this.$router.push({name: 'Dipendenti'});
         },
         checkForm: function(e) {
             e.preventDefault();
@@ -200,14 +208,14 @@ export default {
             if (this.employee.id === null) {
                 this.$http.post(`/employees`, this.employee).then(({ response }) => {
                     console.log(response)
-                    this.$router.push({name: 'Collaboratori'});
+                    this.$router.push({name: 'Dipendenti'});
                 }).catch((error) => {
                     console.log(error);
                 })
             } else {
                 this.$http.patch(`/employees/` + this.employee.id, this.employee).then(({ response }) => {
                     console.log(response)
-                    this.$router.push({name: 'Collaboratori'});
+                    this.$router.push({name: 'Dipendenti'});
                 }).catch((error) => {
                     console.log(error);
                 })
@@ -216,7 +224,7 @@ export default {
         deleteEmployee: function() {
             this.$http.delete(`/employees/` + this.employee.id).then(({response}) => {
                 console.log(response);
-                this.$router.push({name: 'Collaboratori'});
+                this.$router.push({name: 'Dipendenti'});
             }).catch((error) => {
                 console.log(error);
             })

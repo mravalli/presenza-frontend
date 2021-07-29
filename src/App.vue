@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="user.isLoggedIn" class="page-wrapper">
       <div class="content-wrapper">
-        <div class="container is-widescreen">
+        <div class="container is-fluid">
           <b-navbar>
             <template slot="brand">
               <b-navbar-item tag="router-link" :to="{ path: '/' }">
@@ -16,8 +16,8 @@
               <b-navbar-item tag="router-link" :to="{ path: '/' }">
                 Calendario
               </b-navbar-item>
-              <b-navbar-item tag="router-link" :to="{ path: '/collaboratori' }">
-                Collaboratori
+              <b-navbar-item tag="router-link" :to="{ path: '/dipendenti' }">
+                Dipendenti
               </b-navbar-item>
               <b-navbar-item tag="router-link" :to="{ path: '/sedi' }">
                 Sedi

@@ -4,14 +4,14 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Collaboratori
+                        Dipendenti
                     </h1>
                     <h2 class="subtitle">
                         Elenco Generale
                     </h2>
                     <div class="is-pulled-right">
-                        <b-button tag="router-link" to="/collaboratore/nuovo" type="is-link is-light">
-                            <b-icon icon="account-plus" size="is-small" class="pr-2"></b-icon> Aggiungi Collaboratore/Collaboratorice
+                        <b-button tag="router-link" to="/dipendente/nuovo" type="is-link is-light">
+                            <b-icon icon="account-plus" size="is-small" class="pr-2"></b-icon> Aggiungi Dipendente
                         </b-button>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                 </b-table-column>
 
                 <b-table-column field="action" label="Azioni" v-slot="props">
-                    <b-button tag="router-link" :to="`/collaboratore/${props.row.id}`" type="is-link is-light">
+                    <b-button tag="router-link" :to="`/dipendente/${props.row.id}`" type="is-link is-light">
                         <b-icon icon="account-edit" size="is-small"></b-icon>
                     </b-button>
                 </b-table-column>
@@ -105,9 +105,9 @@
                     .then(({ data }) => {
                         this.data = []
                         let currentTotal = data.totalResults
-                        if (data.totalResults / this.pageSize > 1000) {
-                            currentTotal = this.pageSize * 1000
-                        }
+                        // if (data.totalResults / this.pageSize > 1000) {
+                        //     currentTotal = this.pageSize * 1000
+                        // }
                         this.total = currentTotal
                         data.items.forEach((item) => {
                             this.data.push(item)

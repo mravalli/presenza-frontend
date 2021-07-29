@@ -10,7 +10,7 @@
                                     required
                                     v-model="justification.name"
                                     validation-message="Il Nome è obbligatorio e deve essere compreso tra 3 e 64 caratteri!"
-                                    pattern="^[\sa-zA-Z]{3,64}$"
+                                    pattern="^[\sa-zA-Zàèìòù]{3,64}$"
                                     placeholder="Malattia Figli"
                                     maxlength=64>
                                 </b-input>
@@ -22,7 +22,7 @@
                                     required
                                     v-model="justification.code"
                                     validation-message="Il Codice è obbligatorio e deve essere compreso massimo 3 caratteri!"
-                                    pattern="^[\sa-zA-Z]{1,3}$"
+                                    pattern="^[\sa-zA-Zàèìòù]{1,3}$"
                                     placeholder="Malattia Figli"
                                     maxlength=3>
                                 </b-input>

@@ -4,7 +4,7 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Nuovo Collaboratore/Collaboratorice
+                        Nuovo Dipendente
                     </h1>
                     <h2 class="subtitle">
                         Tutti i campi con l'asterisco <span style="color: red;">*</span> sono obbligatori
