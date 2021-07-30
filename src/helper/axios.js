@@ -70,21 +70,27 @@ function isTokenExpiredError(errorResponse) {
     return false;
 }
 
-const customAxios = axios.create({
+const axiosApiInstance = axios.create({
     baseURL: baseURL
 });
 
-customAxios.interceptors.request.use(function(config) {
-    const token = store.state.user.access_token;
-    config.headers.Authorization =  token ? `Bearer ${token}` : '';
-    return config;
-});
+axiosApiInstance.interceptors.request.use(
+    config => {
+        const token = store.state.user.access_token;
+        config.headers.Authorization =  token ? `Bearer ${token}` : '';
+        return config;
+    },
+    error => {
+        Promise.reject(error);
+    }
+);
 
-customAxios.interceptors.response.use(
-    function (response) {
+axiosApiInstance.interceptors.response.use(
+    (response) => {
         return response;
     },
-    function (error) {
+    async function (error) {
+        console.debug(error.response.status);
         const errorResponse = error.response
         if (isTokenExpiredError(errorResponse)) {
             return resetTokenAndReattemptRequest(error)
@@ -93,6 +99,4 @@ customAxios.interceptors.response.use(
     }
 );
 
-console.log(customAxios)
-
-export default customAxios
+export default axiosApiInstance
