@@ -96,19 +96,18 @@
                                 <b-input
                                     v-model="employee.phone"
                                     validation-message="Il numero inserito non sembra essere valido"
-                                    pattern="^((\+|00)?39)?\s0\d{1,3}\s?(\d{3}\s(\d{3,4}|(\d{2}\s\d{2}))|\d{6,7})$"
-                                    placeholder="XXXX XXX XXX">
+                                    pattern="((\+|00)?39)?\s0\d{1,3}\s?(\d{3}\s(\d{3,4}|(\d{2}\s\d{2}))|\d{2}\s?\d{2}\s?\d{2}|\d{5,7})$"
+                                    placeholder="0123 456 789 o 0123 45 6789 o 0123 456789 o 012 3456789">
                                 </b-input>
                             </b-field>
                         </div>
                         <div class="column is-half">
                             <b-field label="Cellulare *" label-position="on-border">
                                 <b-input
-                                    required
                                     v-model="employee.mobile"
                                     validation-message="Il numero inserito non sembra essere valido"
-                                    pattern="^((\+|00)?39)?\s3\d{2}\s?(\d{3}\s(\d{3,4}|(\d{2}\s\d{2}))|\d{6,7})$"
-                                    placeholder="XXX XXX XXXX">
+                                    pattern="((\+|00)?\d{2,3})?\s3\d{2}\s?(\d{2,3}\s(\d{3,4}|(\d{2}\s\d{2})|(\d{2}\s\d{3}))|\d{6,7})$"
+                                    placeholder="333 123 4567 o 333 12 34 567 o 333 1234567 o 333 123 45 67">
                                 </b-input>
                             </b-field>
                         </div>
@@ -117,7 +116,6 @@
                         <div class="column is-full">
                             <b-field label="Email *" label-position="on-border">
                                 <b-input
-                                    required
                                     v-model="employee.email"
                                     validation-message="L'Indirizzo email inserito non sembra essere valido"
                                     type="email"

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '../store'
+import router from '../router'
 import tokenUtils from './tokenUtils'
 
 let baseURL = import.meta.env.VITE_API_URL
@@ -49,7 +50,8 @@ async function resetTokenAndReattemptRequest(error) {
         }
         return retryOriginalRequest;
     } catch (err) {
-        return Promise.reject(err);
+        tokenUtils.removeWebToken();
+        router.push('/login');
     }
 }
 
@@ -90,7 +92,6 @@ axiosApiInstance.interceptors.response.use(
         return response;
     },
     async function (error) {
-        console.debug(error.response.status);
         const errorResponse = error.response
         if (isTokenExpiredError(errorResponse)) {
             return resetTokenAndReattemptRequest(error)

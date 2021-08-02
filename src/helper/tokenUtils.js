@@ -13,6 +13,9 @@ const tokenUtils = {
     saveRefreshToken: function(newToken) {
         store.commit('addWebToken', newToken);
     },
+    removeWebToken: () => {
+        store.commit('removeWebToken');
+    }
 }
 
 export default tokenUtils;
