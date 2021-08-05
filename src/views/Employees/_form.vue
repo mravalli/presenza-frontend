@@ -31,6 +31,15 @@
                         </div>
                     </div>
                     <div class="columns">
+                        <div class="column is-one-fifth">
+                            <b-field label="Matricola *" label-position="on-border">
+                                <b-input
+                                    v-model="employee.badge_id"
+                                    validation-message="Il numero di matricola è obbligatoria!"
+                                    required>
+                                </b-input>
+                            </b-field>
+                        </div>
                         <div class="column is-two-fifths">
                             <b-field label="Codice Fiscale *" label-position="on-border">
                                 <b-input
@@ -46,6 +55,17 @@
                                 <b-datepicker
                                     required
                                     v-model="employee.birthday"
+                                    locale="it-IT"
+                                    icon="calendar-today"
+                                    trap-focus>
+                                </b-datepicker>
+                            </b-field>
+                        </div>
+                        <div class="column is-one-fifth">
+                            <b-field label="Data Prima Assunzione *" label-position="on-border">
+                                <b-datepicker
+                                    required
+                                    v-model="employee.first_engagement"
                                     locale="it-IT"
                                     icon="calendar-today"
                                     trap-focus>
@@ -102,7 +122,7 @@
                             </b-field>
                         </div>
                         <div class="column is-half">
-                            <b-field label="Cellulare *" label-position="on-border">
+                            <b-field label="Cellulare" label-position="on-border">
                                 <b-input
                                     v-model="employee.mobile"
                                     validation-message="Il numero inserito non sembra essere valido"
@@ -114,7 +134,7 @@
                     </div>
                     <div class="columns">
                         <div class="column is-full">
-                            <b-field label="Email *" label-position="on-border">
+                            <b-field label="Email" label-position="on-border">
                                 <b-input
                                     v-model="employee.email"
                                     validation-message="L'Indirizzo email inserito non sembra essere valido"
@@ -202,6 +222,9 @@ export default {
             e.preventDefault();
             if (this.$lodash.isDate(this.employee.birthday)) {
                 this.employee.birthday = this.employee.birthday.getFullYear() + '-' + (this.employee.birthday.getMonth() + 1) + '-' + this.employee.birthday.getDate();
+            }
+            if (this.$lodash.isDate(this.employee.first_engagement)) {
+                this.employee.first_engagement = this.employee.first_engagement.getFullYear() + '-' + (this.employee.first_engagement.getMonth() + 1) + '-' + this.employee.first_engagement.getDate();
             }
             if (this.employee.id === null) {
                 this.$http.post(`/employees`, this.employee).then(({ response }) => {

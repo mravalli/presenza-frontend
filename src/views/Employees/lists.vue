@@ -45,6 +45,10 @@
                     {{ props.row.lastname }}
                 </b-table-column>
 
+                <b-table-column field="badge_id" label="Matricola" sortable v-slot="props">
+                    {{ props.row.badge_id }}
+                </b-table-column>
+
                 <b-table-column field="cf" label="Codice Fiscale" sortable v-slot="props">
                     {{ props.row.cf }}
                 </b-table-column>

@@ -29,6 +29,7 @@
                 .then(({data}) => {
                     this.employee   = data.employee;
                     this.employee.birthday = new Date(data.employee.birthday);
+                    this.employee.first_engagement = new Date(data.employee.first_engagement);
                     this.fullname   = data.employee.firstname + ' ' + data.employee.lastname;
                     this.hoursWeeks = data.hoursWeeks;
                 })
