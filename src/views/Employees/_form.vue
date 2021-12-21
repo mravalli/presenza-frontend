@@ -31,15 +31,6 @@
                         </div>
                     </div>
                     <div class="columns">
-                        <div class="column is-one-fifth">
-                            <b-field label="Matricola *" label-position="on-border">
-                                <b-input
-                                    v-model="employee.badge_id"
-                                    validation-message="Il numero di matricola è obbligatoria!"
-                                    required>
-                                </b-input>
-                            </b-field>
-                        </div>
                         <div class="column is-two-fifths">
                             <b-field label="Codice Fiscale *" label-position="on-border">
                                 <b-input
@@ -115,8 +106,6 @@
                             <b-field label="Telefono Fisso" label-position="on-border">
                                 <b-input
                                     v-model="employee.phone"
-                                    validation-message="Il numero inserito non sembra essere valido"
-                                    pattern="((\+|00)?39)?\s0\d{1,3}\s?(\d{3}\s(\d{3,4}|(\d{2}\s\d{2}))|\d{2}\s?\d{2}\s?\d{2}|\d{5,7})$"
                                     placeholder="0123 456 789 o 0123 45 6789 o 0123 456789 o 012 3456789">
                                 </b-input>
                             </b-field>
@@ -125,8 +114,6 @@
                             <b-field label="Cellulare" label-position="on-border">
                                 <b-input
                                     v-model="employee.mobile"
-                                    validation-message="Il numero inserito non sembra essere valido"
-                                    pattern="((\+|00)?\d{2,3})?\s3\d{2}\s?(\d{2,3}\s(\d{3,4}|(\d{2}\s\d{2})|(\d{2}\s\d{3}))|\d{6,7})$"
                                     placeholder="333 123 4567 o 333 12 34 567 o 333 1234567 o 333 123 45 67">
                                 </b-input>
                             </b-field>
