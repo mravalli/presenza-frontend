@@ -49,7 +49,7 @@
       <footer class="footer mt-6">
         <div class="content has-text-centered">
           <p>
-            <strong>Presenza</strong> è un software realizzato e distribuito da <a href="https://www.lareclameitalia.com" target="_blank">La Reclame Digital Agency</a>.
+            <strong>Presenza</strong> è un software realizzato da <a href="https://mario.raval.li" target="_blank">Mario Ravalli</a>.
           </p>
         </div>
       </footer>
