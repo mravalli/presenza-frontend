@@ -45,7 +45,7 @@
                     {{ props.row.lastname }}
                 </b-table-column>
 
-                <b-table-column field="badge_id" label="Matricola" sortable v-slot="props">
+                <b-table-column field="badge_id" label="Matr/Liv" sortable v-slot="props">
                     {{ props.row.badge_id }}
                 </b-table-column>
 

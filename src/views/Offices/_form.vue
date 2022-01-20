@@ -17,7 +17,7 @@
                             </b-field>
                         </div>
                         <div class="column is-half">
-                            <b-field label="Responsabile" label-position="on-border">
+                            <b-field label="Responsabile *" label-position="on-border">
                                 <b-select v-model="office.managerId">
                                     <option
                                         v-for="manager in managers"
@@ -31,7 +31,7 @@
                     </div>
                     <div class="columns">
                         <div class="column">
-                            <b-field label="Dislocazione" label-position="on-border">
+                            <b-field label="Dislocazione *" label-position="on-border">
                                 <b-input
                                     required
                                     v-model="office.location"

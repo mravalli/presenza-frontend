@@ -32,10 +32,10 @@
                     </div>
                     <div class="columns">
                         <div class="column is-one-fifth">
-                            <b-field label="Matricola *" label-position="on-border">
+                            <b-field label="Matr./Livello *" label-position="on-border">
                                 <b-input
                                     v-model="employee.badge_id"
-                                    validation-message="Il numero di matricola è obbligatoria!"
+                                    validation-message="Inserire un numero di matricola o il livello!"
                                     required>
                                 </b-input>
                             </b-field>
