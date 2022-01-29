@@ -24,7 +24,7 @@
               </b-navbar-item>
             </template>
             <template slot="end">
-              <b-navbar-dropdown :label="user.name">
+              <b-navbar-dropdown :label="user.name" right>
                 <b-navbar-item tag="router-link" :to="{ path: '/impostazioni' }">
                   Azienda
                 </b-navbar-item>
