@@ -1,0 +1,9 @@
+/.idea
+/.env
+/runtime
+/var
+/vendor
+*.cache
+phinx.php
+docker-compose.override.yml
+/phinx.yml

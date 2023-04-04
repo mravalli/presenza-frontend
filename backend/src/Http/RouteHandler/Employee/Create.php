@@ -1,0 +1,49 @@
+<?php declare(strict_types=1);
+
+namespace Neuro3\Presenza\Http\RouteHandler\Employee;
+
+use Neuro3\Presenza\Http\RouteHandler;
+use Neuro3\Presenza\Model\InvalidDataException;
+use Neuro3\Presenza\Model\Employee;
+use Neuro3\Presenza\Model\EmployeeDataMapper;
+use League\Route\Http\Exception\BadRequestException;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Laminas\Diactoros\Response\JsonResponse;
+
+class Create implements RouteHandler
+{
+    /**
+     * @var EmployeeDataMapper
+     */
+    private $employeeDataMapper;
+
+    public function __construct(EmployeeDataMapper $employeeDataMapper)
+    {
+        $this->employeeDataMapper = $employeeDataMapper;
+    }
+
+    /**
+     * @param Request $request
+     * @param string[] $args
+     *
+     * @return Response
+     *
+     * @throws BadRequestException
+     * @throws InvalidDataException
+     */
+    public function __invoke(Request $request, array $args): Response
+    {
+        $requestBody = $request->getParsedBody();
+
+        if (! is_array($requestBody)) {
+            throw new BadRequestException('Invalid request body');
+        }
+
+        $item = Employee::createFromArray($requestBody);
+
+        $this->employeeDataMapper->insert($item);
+
+        return new JsonResponse($item, 201);
+    }
+}

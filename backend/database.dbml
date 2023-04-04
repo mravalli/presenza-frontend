@@ -1,0 +1,143 @@
+// Creating tables
+Table users as U {
+  id int [pk, increment] // auto-increment
+  firstname varchar(64) [not null]
+  lastname varchar(64) [not null]
+  username varchar(64) [not null]
+  password varchar(64) [not null]
+  email varchar(150)
+  status tinyint [default: 1]
+  role int [not null]
+  primary_key varchar(40)
+  secondary_key varchar(40)
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+  
+  Note: 'Stores User Data'
+}
+
+Table company {
+  id int [pk, default: 1]
+  fullname varchar(150) [not null]
+  vat varchar(13)
+  cf varchar(16) [not null]
+  address varchar(150) [not null]
+  cap varchar(5) [not null]
+  city varchar(45) [not null]
+  phone varchar(15) [not null]
+  email varchar(150) [not null]
+  days_off int [not null, default: 28]
+  hours_leave int [not null, default: 88]
+  notes mediumblob
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+  
+  Note: 'Company Data'
+}
+
+Table employees {
+  id int [pk, increment]
+  firstname varchar(64) [not null]
+  lastname varchar(64) [not null]
+  address varchar(150)
+  cap varchar(5)
+  city varchar(45)
+  cf varchar(16) [not null]
+  phone varchar(15)
+  mobile varchar(15)
+  email varchar(150)
+  birthday date
+  engagement_date date [not null]
+  disengagement_date date
+  notes mediumblob
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+  
+  Note: 'Stores Employees Data'
+}
+
+Table offices {
+  id int [pk, increment]
+  name varchar(45) [not null]
+  location varchar(150)
+  manager_id int [ref: > employees.id]
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+}
+
+Table office_employees {
+  office_id int [ref: > offices.id]
+  employee_id int [ref: > employees.id]
+  enabled bool
+  default bool [not null, default: 1]
+  indexes {
+    (office_id, employee_id) [unique]
+  }
+}
+
+Table engagements {
+  id int [pk, increment]
+  employee_id int [ref: > employees.id]
+  hours_week_id int [ref: > hours_week.id]
+  begin date [not null]
+  end date
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+}
+
+Table hours_week {
+  id int [pk, increment]
+  type contract_types [not null, default: 'FT']
+  days int [not null, default: 6]
+  mon decimal(3,2) [not null, default: 0.00]
+  tue decimal(3,2) [not null, default: 0.00]
+  wed decimal(3,2) [not null, default: 0.00]
+  thu decimal(3,2) [not null, default: 0.00]
+  fri decimal(3,2) [not null, default: 0.00]
+  sat decimal(3,2) [not null, default: 0.00]
+  sun decimal(3,2) [not null, default: 0.00]
+}
+
+Table calendar {
+  id int [pk, increment]
+  day date [not null]
+  office_id int [ref: > offices.id]
+  employee_id int [ref: > employees.id]
+  hours decimal(4,2)
+  justification_code varchar(3)
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+}
+
+Table justifications {
+  id int [pk, increment]
+  name varchar [not null]
+  code varchar(3) [not null]
+  limit int
+}
+
+Table logs {
+  id int [pk, increment]
+  user_id int [ref: > U.id]
+  operation text [not null]
+  level levels
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+}
+
+Table events {
+  id int [pk, increment]
+  message varchar [not null]
+  referer varchar
+  level levels
+  readed_at datetime
+  readed_by int
+  created_at timestamp [not null, default:`CURRENT_TIMESTAMP`]
+}
+
+enum levels {
+  info
+  warning
+  error
+  critical
+}
+
+enum contract_types {
+  FT
+  PTO
+  PTV
+  PTM
+}

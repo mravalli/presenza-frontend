@@ -1,0 +1,5 @@
+parameters:
+    level: 5
+    ignoreErrors:
+        - message: "#factory expects callable#"
+          path: src/Config/DependencyInjection.php
